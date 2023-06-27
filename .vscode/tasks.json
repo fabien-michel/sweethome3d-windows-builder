@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "viewWithF3d",
+            "type": "shell",
+            "command": "f3d -q dist/ME01.obj"
+        }
+    ]
+}
