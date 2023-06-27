@@ -1,0 +1,40 @@
+{
+  "id": "SH3DWINBUILD",
+  "name": "Demo for sweethome3d-windows-builder",
+  "description": "Demo for sweethome3d-windows-builder",
+  "license": "WTFPL",
+  "creator": "Demo",
+  "provider": "http://www.sweethome3d.com",
+  "version": "1.0.30",
+  "windows": [
+    {
+      "name": "ONE",
+      "category": "SH3D Windows Builder",
+      "width": 140,
+      "height": 100,
+      "elevation": 110,
+      "dir": "h",
+      "style": "default",
+      "wall_thickness": 46,
+      "frame_thickness": 0.3,
+      "glass_thickness": 3.6,
+      "pane_depth": 4.6,
+      "panes": [
+        {
+          "size_pc": 0.36,
+          "opening": null,
+          "frame_thickness": 5,
+          "type": "opening-left"
+        },
+        {
+          "size_pc": 0.64,
+          "type": "fixed",
+          "frame_thickness": 5,
+          "outer_frame_thickness": [5, 5, 5, 1],
+          "outer_frame_depth": 2,
+          "hinges_count": 4
+        }
+      ]
+    }
+  ]
+}
