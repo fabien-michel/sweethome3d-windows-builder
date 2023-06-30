@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from itertools import chain
 from pathlib import Path
 
-from config import BASE_DIR_PATH
+from config import DIST_PATH
 from materials import materials
 from obj_types.sash import Sash
 from obj_types.thickness import Thickness
@@ -99,7 +99,7 @@ class Window:
 
     @property
     def obj_file_path(self) -> Path:
-        return BASE_DIR_PATH / self.obj_file_name
+        return DIST_PATH / self.obj_file_name
 
     @property
     def obj_file_archive_path(self) -> Path:
@@ -111,7 +111,7 @@ class Window:
 
     @property
     def icon_file_path(self) -> Path:
-        return BASE_DIR_PATH / self.icon_file_name
+        return DIST_PATH / self.icon_file_name
 
     @property
     def icon_file_archive_path(self) -> Path:
@@ -123,7 +123,7 @@ class Window:
 
     @property
     def mtl_file_path(self) -> Path:
-        return BASE_DIR_PATH / self.mtl_file_name
+        return DIST_PATH / self.mtl_file_name
 
     @property
     def mtl_file_archive_path(self) -> Path:
@@ -157,10 +157,10 @@ class Window:
         window = eng.getWindow()
         camera = window.getCamera()
         options.set("render.effect.ambient-occlusion", True)
-        # options.set("render.effect.anti-aliasing", True)
         eng.getLoader().loadScene(str(self.obj_file_path))
         window.setSize(200, 200)
         camera.setPosition(f3d.point3_t(250, 150, 250))
+        camera.resetToBounds()
         img = window.renderToImage(True)
         img.save(str(self.icon_file_path))
 
