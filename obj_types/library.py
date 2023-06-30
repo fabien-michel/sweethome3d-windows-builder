@@ -3,11 +3,11 @@ from datetime import datetime
 import json
 from pathlib import Path
 import zipfile
-from config import BASE_DIR_PATH
 from obj_types.window import Window
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-CATALOG_FILE_PATH = BASE_DIR_PATH / "PluginFurnitureCatalog.properties"
+from config import DIST_PATH
+CATALOG_FILE_PATH = DIST_PATH / "PluginFurnitureCatalog.properties"
 
 
 @dataclass
@@ -25,7 +25,7 @@ class Library:
 
     @property
     def sh3f_file_path(self):
-        return BASE_DIR_PATH / f"{self.id}.sh3f"
+        return DIST_PATH / f"{self.id}.sh3f"
 
     def add_window(self, window: Window):
         self.windows.append(window)
