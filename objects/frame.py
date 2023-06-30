@@ -1,10 +1,9 @@
 from obj_types.thickness import Thickness
-import objects.vertex_normals as vn
-from utils import get_id
 from obj_types.part import Part
 
 
 def new_frame(
+    name="frame",
     x=0,
     y=0,
     z=0,
@@ -13,10 +12,9 @@ def new_frame(
     depth=2,
     thickness: Thickness = Thickness(5),
     mtl="white",
-    id=None,
 ):
     return Part(
-        name=get_id("frame"),
+        name=name,
         vertices=[
             (x, y, z),  # 1
             (x + width, y, z),  # 2
@@ -40,22 +38,22 @@ def new_frame(
             (x + width - thickness.right, y + height - thickness.top, z + depth),  # 16
         ],
         faces=[
-            ((1, 4, 3, 2), vn.FRONT),
-            ((1, 9, 10, 4), vn.FRONT),
-            ((2, 3, 14, 13), vn.FRONT),
-            ((9, 13, 14, 10), vn.FRONT),
-            ((5, 6, 7, 8), vn.BACK),
-            ((5, 8, 12, 11), vn.BACK),
-            ((6, 15, 16, 7), vn.BACK),
-            ((11, 12, 16, 15), vn.BACK),
-            ((4, 8, 7, 3), vn.TOP),
-            ((4, 10, 12, 8), vn.RIGHT),
-            ((3, 7, 16, 14), vn.LEFT),
-            ((10, 14, 16, 12), vn.BOTTOM),
-            ((1, 2, 6, 5), vn.BOTTOM),
-            ((2, 13, 15, 6), vn.RIGHT),
-            ((15, 13, 9, 11), vn.TOP),
-            ((1, 5, 11, 9), vn.LEFT),
+            (1, 4, 3, 2),
+            (1, 9, 10, 4),
+            (2, 3, 14, 13),
+            (9, 13, 14, 10),
+            (5, 6, 7, 8),
+            (5, 8, 12, 11),
+            (6, 15, 16, 7),
+            (11, 12, 16, 15),
+            (4, 8, 7, 3),
+            (4, 10, 12, 8),
+            (3, 7, 16, 14),
+            (10, 14, 16, 12),
+            (1, 2, 6, 5),
+            (2, 13, 15, 6),
+            (15, 13, 9, 11),
+            (1, 5, 11, 9),
         ],
         smooth=False,
         mtl=mtl,

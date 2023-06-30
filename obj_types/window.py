@@ -3,16 +3,14 @@ from itertools import chain
 from pathlib import Path
 
 from config import BASE_DIR_PATH
+from materials import materials
 from obj_types.sash import Sash
 from obj_types.thickness import Thickness
-
-from objects.pane import new_pane
+from objects.frame import new_frame
+from objects.panes import new_pane
 from utils import get_id
 
 from .part import Part
-from objects.frame import new_frame
-
-from materials import materials
 
 
 @dataclass
@@ -214,10 +212,11 @@ def build_panes_group(
     group_data: dict, delta_x=0, delta_y=0, delta_width=0, delta_height=0
 ) -> tuple[list[Part], list[Sash]]:
     parts: list[Part] = []
-    sashs: list[Sash] = []
+    sashes: list[Sash] = []
     group_width = group_data["width"] - delta_width
     group_height = group_data["height"] - delta_height
-    for pane_data in group_data["panes"]:
+    opening_pane_index = 0
+    for pane_index, pane_data in enumerate(group_data["panes"]):
         # is_first_pane_of_group = pane_index == 0
         # is_last_pane_of_group = pane_index == len(group_data["panes"]) - 1
         if group_data["dir"] == "h":
@@ -253,12 +252,15 @@ def build_panes_group(
         glass_thickness = (
             pane_data.get("glass_thickness") or group_data.get("glass_thickness") or 0.4
         )
-        type = pane_data.get("type")
-        hinges_count = pane_data.get("hinges_count", 2)
+        pane_type = pane_data.get("type")
+        hinges_count = pane_data.get("hinges_count", 3)
         opening_angle_start = pane_data.get("opening_angle_start", 0)
         opening_angle_end = pane_data.get("opening_angle_end", 90)
+        if pane_type.startswith("opening"):
+            opening_pane_index += 1
 
-        pane_parts, pane_sash = new_pane(
+        pane_parts, pane_sashes = new_pane(
+            index=pane_index + 1,
             x=delta_x,
             y=delta_y,
             z=pane_z,
@@ -271,14 +273,27 @@ def build_panes_group(
             overlap_outer_frame=overlap_outer_frame,
             glass_depth=glass_thickness,
             hinges_count=hinges_count,
-            type=type,
+            type=pane_type,
+            opening_pane_index=opening_pane_index,
         )
         parts.extend(pane_parts)
 
-        if pane_sash:
-            pane_sash.start_angle = opening_angle_start
-            pane_sash.end_angle = opening_angle_end
-            sashs.append(pane_sash)
+        if pane_sashes:
+            if pane_type == "opening-left":
+                pane_sashes[0].start_angle = opening_angle_start
+                pane_sashes[0].end_angle = -opening_angle_end
+            elif pane_type == "opening-right":
+                pane_sashes[0].start_angle = opening_angle_start + 180
+                pane_sashes[0].end_angle = opening_angle_end + 180
+            elif pane_type == "opening-double":
+                pane_sashes[0].start_angle = opening_angle_start
+                pane_sashes[0].end_angle = -opening_angle_end
+                pane_sashes[1].start_angle = opening_angle_start + 180
+                pane_sashes[1].end_angle = opening_angle_end + 180
+            sashes.extend(pane_sashes)
+
+        if pane_type == "opening-double":
+            opening_pane_index += 1
 
         match group_data["dir"]:
             case "h":
@@ -286,4 +301,4 @@ def build_panes_group(
             case "v":
                 delta_y += pane_height
 
-    return parts, sashs
+    return parts, sashes

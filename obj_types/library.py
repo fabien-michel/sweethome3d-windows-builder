@@ -1,12 +1,13 @@
+import json
+import zipfile
 from dataclasses import dataclass, field
 from datetime import datetime
-import json
 from pathlib import Path
-import zipfile
-from obj_types.window import Window
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from config import DIST_PATH
+from obj_types.window import Window
 CATALOG_FILE_PATH = DIST_PATH / "PluginFurnitureCatalog.properties"
 
 
