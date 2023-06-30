@@ -8,7 +8,7 @@ from obj_types.sash import Sash
 from obj_types.thickness import Thickness
 from objects.frame import new_frame
 from objects.panes import new_pane
-from utils import get_id
+from utils import get_id, logger
 
 from .part import Part
 
@@ -57,6 +57,7 @@ class Window:
 
     @classmethod
     def build_from_json(cls, window_data) -> "Window":
+        logger.info(f"Build window {window_data.get('id')}")
         parts = []
 
         if window_data["frame_thickness"]:
@@ -140,15 +141,19 @@ class Window:
 
     def write_obj_file(self) -> Path:
         file_path = self.obj_file_path
+        logger.info(f"Build obj file {file_path}")
         file_path.write_text(self.get_obj_content())
         return file_path
 
     def write_mtl_file(self) -> Path:
         file_path = self.mtl_file_path
+        logger.info(f"Build mtl file {file_path}")
         file_path.write_text(self.get_mtl_content())
         return file_path
 
     def write_icon_file(self) -> Path:
+        logger.info(f"Build icon file {self.icon_file_path} using f3d")
+
         import f3d
 
         f3d.engine.autoloadPlugins()

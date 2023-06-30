@@ -2,11 +2,11 @@ import argparse
 from pathlib import Path
 
 from obj_types.library import Library
-
-# LIBRARY_JSON = Path("library.json")
+from utils import logger
 
 
 def main(windows_json: Path, *args, **kwargs):
+    logger.info("Start build process")
     library = Library.from_json_file(windows_json)
     library.build_sh3f()
 

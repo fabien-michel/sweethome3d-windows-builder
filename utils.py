@@ -1,5 +1,11 @@
-from collections import defaultdict
+import logging
 import re
+from collections import defaultdict
+
+from config import LOG_LEVEL
+
+logger = logging.getLogger(__name__)
+logger.setLevel(LOG_LEVEL)
 
 global_ids = defaultdict(int)
 

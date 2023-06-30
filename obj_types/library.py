@@ -8,6 +8,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from config import DIST_PATH
 from obj_types.window import Window
+from utils import logger
+
 CATALOG_FILE_PATH = DIST_PATH / "PluginFurnitureCatalog.properties"
 
 
@@ -95,6 +97,7 @@ class Library:
 
     @classmethod
     def from_json_file(cls, json_file_path: Path):
+        logger.info(f"Build library from {json_file_path}")
         with json_file_path.open() as library_json_file:
             library_data = json.load(library_json_file)
 
